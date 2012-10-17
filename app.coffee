@@ -19,5 +19,4 @@ app
 app.get '/', (req, res) ->
     res.render 'index'
 
-
 app.listen process.env.PORT or 5000
