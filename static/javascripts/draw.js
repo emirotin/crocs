@@ -1,5 +1,5 @@
 $(function() {
-    var socket = io.connect(document.location.host),
+    var socket = io.connect(document.location.protocol + '//' + document.location.host),
         stage = new Kinetic.Stage({
             container: "drawing-stage",
             width: 700,
@@ -33,13 +33,24 @@ $(function() {
         if (line_data.line) {
             line_data.line.remove();
         }
-        line_data.line = new Kinetic.Line({
-            points: line_data.points,
-            stroke: "red",
-            strokeWidth: 15,
-            lineCap: "round",
-            lineJoin: "round"
-        });
+        if (line_data.points.length > 2) {
+            line_data.line = new Kinetic.Line({
+                points: line_data.points,
+                stroke: "red",
+                strokeWidth: 15,
+                lineCap: "round",
+                lineJoin: "round"
+            })
+        }
+        else {
+            line_data.line = new Kinetic.Circle({
+                x: line_data.points[0],
+                y: line_data.points[1],
+                radius: 15 / 2,
+                fill: "red",
+                strokeWidth: 0
+            })
+        }
         layer.add(line_data.line);
         layer.draw();
     }

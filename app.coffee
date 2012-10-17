@@ -23,19 +23,29 @@ app.get '/', (req, res) ->
     res.render 'index'
 
 clients = {}
-client_id = 0
+current_drawer = null
+
+rand_id = ->
+    ids = [key for key of clients when clients.hasOwnProperty(key)]
+    ids[Math.floor(Math.random() * ids.length)]
 
 io.sockets.on 'connection', (socket) ->
-    client_id += 1
-    clients[client_id] = socket
-    socket.emit 'login info', { id: client_id }
+    socket_id = socket.id
+    clients[socket_id] = socket
+    if current_drawer == null
+        current_drawer = socket_id
+    socket.emit 'login info', { id: socket_id, is_drawer: current_drawer == socket_id }
     socket.on 'line create', (data) ->
-        console.log data
         socket.broadcast.emit 'line create', data
     socket.on 'line update', (data) ->
         socket.broadcast.emit 'line update', data
     socket.on 'line end', (data) ->
         socket.broadcast.emit 'line end', data
+    socket.on 'disconnect', ->
+        delete clients[socket_id]
+        if current_drawer == socket_id
+            current_drawer = rand_id()
+
 
 port = process.env.PORT or 5000
 
