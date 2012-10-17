@@ -36,7 +36,7 @@ $(function() {
             layer.add(currentLine);
             layer.draw();
         },
-        'mouseup touchend': function () {
+        'mouseup touchend mouseout': function () {
             drawing = false;
             currentLine = null;
             currentLinePoints = null;
