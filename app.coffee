@@ -60,6 +60,9 @@ io.sockets.on 'connection', (socket) ->
           socket: socket
           name: data.name
         socket_to_user[socket_id] = data.fb_id
+        console.log 'currrrrr', current_drawer, 'fb', data.fb_id
+        if data.fb_id == current_drawer
+            socket.emit 'is drawer'
 
     socket.on 'line create', (data) ->
         socket_broadcast_line socket, 'line create', data
@@ -120,3 +123,5 @@ record_chat_msg = (msg) ->
 
 port = process.env.PORT or 5000
 server.listen port
+
+start_round()

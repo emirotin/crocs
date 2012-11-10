@@ -103,6 +103,9 @@ socket.on 'connect info', (data) ->
         for msg in data.round_chat_messages
             add_chat_msg msg
 
+socket.on 'is drawer', (data) ->
+    is_drawer = true
+
 socket.on 'line create', (data) ->
     create_line(data)
 
@@ -117,12 +120,13 @@ socket.on 'chat msg', (data) ->
 
 socket.on 'round start', (data) ->
     is_drawer = $cr.user_id == data.drawer_id
-    if is_drawer
-        add_chat_msg({message: 'You are the drawer! The word to draw is "' + data.word + '".'})  
 
 $('#chat_input').on 'keydown', (evt) ->
   if evt.which == 13
-      input = $('#chat_input')
       evt.preventDefault()
-      socket.emit('chat msg', {message:input.val()})
+      input = $('#chat_input')
+      val = input.val()
+      if not val
+          return
+      socket.emit('chat msg', {message: val})
       input.val('')
