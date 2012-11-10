@@ -67,6 +67,24 @@ html {
       float: right;
   }
 
+.page-header h1 {
+  margin: 0;
+}
+.tagline {
+  font-size: 16px;
+  font-weight: normal;
+  clear: left;
+  display: block;
+  margin: -.8em 0 0 ;
+}
+.media .user-avatar {
+  border: 1px solid @blu-saturated;
+  border-radius: 2px;
+  margin-left: 20px;
+}
+    .header__user-block {
+      margin: 5px 0 0 0;
+    }
     .header__user-block .media-body {
         line-height: 50px;
         font-size: 18px;
@@ -157,9 +175,7 @@ html {
 /* APP */
 
 .app-root {
-  overflow: hidden;
   height: 500px;
-  border-bottom: 1px solid #;
 }
 .canvas-wrap {
     width: 67%;
@@ -168,7 +184,7 @@ html {
     .border-box;
   background: #fff;
   border: 1px solid @blu-saturated;
-  border-width: 0 1px 1px;
+  border-width: 0 1px 1px 0;
 }
 .canvas-wrap #drawing-stage > div,
 .canvas-wrap canvas {
@@ -196,30 +212,32 @@ html {
 
 }
 
-    .chat__input-holder {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-    }
+      // Message in chat
+      .msg {
+          font-size: 22px;
+          line-height: 1.2;
+          border: rgba(255,255,255,.7) 1px solid;
+          border-width: 0 0 1px;
+          padding: .5em 0;
+        margin: 0;
 
-// Message in chat
-.msg {
-    font-size: 22px;
-    line-height: 1.2;
-
-    a.pull-left {
-      width: 50px;
-      min-height: 1px;
-    }
-}
-    .chat__person-name {
-      line-height: 25px;
-      font-size: 14px;
-      margin: 0;
-      color: darken(@green, 60%);
-    }
+          a.pull-left {
+            width: 50px;
+            min-height: 1px;
+          }
+      }
+      .chat__person-name {
+        line-height: 25px;
+        font-size: 14px;
+        margin: 0;
+        color: @green;
+      }
 
 .chat__input-holder {
+    position: absolute;
+    margin: 0;
+    bottom: 0;
+    width: 100%;
     height: 50px;
 }
 #chat_input {
@@ -230,7 +248,7 @@ html {
   height: 100%;
   border: 1px solid @blu-saturated;
   border-left: 0;
-  border-radius: 0 2px 2px 0;
+  border-radius: 0;
   float: left;
 }
 .chat__text-submit {
@@ -238,6 +256,8 @@ html {
   width: 15%;
   height: 100%;
   .border-box;
+  -webkit-border-radius: 0;
+  border-radius: 0;
 }
 
 
@@ -268,7 +288,7 @@ html {
          width: 50px;
          height: 50px;
          background: #3e75b6;
-         background: hsl(79, 46%, 58%);
+         background: @green;
 
        }
      }
@@ -288,10 +308,3 @@ html {
     background-image: url("../../img/doodles1.png");
     background-repeat: no-repeat;
 }
-/*
-
-.page > * ,
-.app-root > * {
-    outline: 1px dashed #6ca00b;
-}
-*/

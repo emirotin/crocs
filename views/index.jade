@@ -5,6 +5,7 @@ block content
         header.page-header.bg-doodles.clearfix
             .page-header__p1
                 h1 Crockets
+                    span.tagline Realtime drawing game
             .page-header__p2.user-status
 
                 a.btn-login
@@ -14,7 +15,7 @@ block content
                         | login with Facebook
 
                 .media.header__user-block
-                    img.pull-left.user-avatar(src="")
+                    img.pull-right.user-avatar(src="")
                     .media-body.user-name
 
 
@@ -27,7 +28,7 @@ block content
 
             .block.block-holder-just-in-case
 
-            .app-root
+            .app-root.clearfix
                 .canvas-wrap
                     #drawing-stage
 
@@ -36,10 +37,11 @@ block content
 
                     form.chat__input-holder
                         input#chat_input(type="text")
-                        button(type="submit",class="chat__text-submit") !
+                        button(class="chat__text-submit btn btn-primary")
+                            .icon-pencil.icon-white
 
             .stuff
-                h4.block-header Now online 3 people:
+                //h4.block-header Now online 3 people:
                 .onliners
                     a
                         img(title="Person Name")
@@ -60,9 +62,8 @@ block content
                     a
                         img(title="Person Name")
 
-
         footer.page-footer
-            p &copy; Les Troi Buldos, 2012
+            p &copy; Les Trois Bouldos, 2012
 
 
 
