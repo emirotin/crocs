@@ -9,6 +9,7 @@ process_login = (res) ->
     $('.login-status').addClass('in').removeClass('out')
     FB.api '/me', (res) ->
       $('.login-status .name').text res.name
+      $cr.socket.emit 'login', fb_id: res.id, name: res.name
 
 $cr.fb_init = ->
   FB.init
