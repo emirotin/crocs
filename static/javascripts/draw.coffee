@@ -151,6 +151,8 @@ socket.on 'round start', (data) ->
       message "The new round starts!"
 
 $('#chat_input').on 'keydown', (evt) ->
+  if not $cr.user_id
+      return
   if evt.which == 13
       evt.preventDefault()
       input = $('#chat_input')
