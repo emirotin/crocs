@@ -18,6 +18,13 @@
 
 
 
+.border-box {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+
+}
+
 body, html {
   background: none;
   height: 100%;
@@ -30,16 +37,12 @@ html {
     background: -o-radial-gradient(center, ellipse cover,  hsla(200,100%,94%,1) 50%,hsla(206,100%,86%,1) 88%);
     background: -ms-radial-gradient(center, ellipse cover,  hsla(200,100%,94%,1) 50%,hsla(206,100%,86%,1) 88%);
     background: radial-gradient(ellipse at center,  hsla(200,100%,94%,1) 50%,hsla(206,100%,86%,1) 88%);
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e1f5ff', endColorstr='#b7e0ff',GradientType=1 );
-
     background-color: #b7e0ff;
-
 }
 
 .page {
     width: 960px;
     margin: 0 auto;
-    border: 1px solid hsla(200,100%,20%, .5);
 }
 
 /* HEADER */
@@ -49,9 +52,8 @@ html {
         margin: 0;
         position: relative;
         z-index: 10;
-
--webkit-border-radius: 0 0 7px 7px;
-        border-radius: 0 0 7px 7px;
+        border: 0 solid hsla(200,100%,20%, .5);
+        border-width: 0 1px;
         background: hsl(79, 46%, 58%);
         background-position: 42px -670px;
         color: #fff;
@@ -77,6 +79,9 @@ html {
     margin-top: -5px;
     -webkit-border-radius: 0 0 7px 7px ;
     border-radius: 0 0 7px 7px ;
+    border: 1px solid hsla(200,100%,20%, .5);
+    border-width: 0 1px 1px;
+
     background: rgba(255,255,255,.3);
     background-position: 261px -333px;
     background-repeat: repeat !important;
@@ -120,6 +125,22 @@ html {
         background: url(../../img/fb.png);
     }
 
+/* NOTIFICATIONS */
+.notification-area {
+  overflow: hidden;
+  //margin: 0 -1px;
+}
+.alert {
+  padding: 1em;
+  border-width: 1px;
+  margin: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+}
+
+.alert-login {
+
+}
 
 /* APP */
 
@@ -131,19 +152,16 @@ html {
     width: 67%;
     height: 100%;
     float: left;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+    .border-box;
   background: #fff;
 }
 .canvas-wrap #drawing-stage > div,
 .canvas-wrap canvas {
 }
 
-
 /* CHAT */
 
-.chat-log {
+.chat-log-wrap {
     width: 33%;
     float: left;
     height: 100%;
@@ -155,7 +173,7 @@ html {
     border: 1px solid rgba(255,2552,255,.5);
 }
 
-.chat__msgs {
+.chat-log {
     width: 100%;
     position: absolute;
     top: 0;
@@ -164,29 +182,47 @@ html {
 
 }
 
-.chat__input-holder {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
+    .chat__input-holder {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
 // Message in chat
 .msg {
-    font-size: 18px;
+    font-size: 22px;
 }
     .chat__person-name {
       line-height: 25px;
+      font-size: 14px;
       margin: 0;
+      color: #666666;
     }
 
 .chat__input-holder {
-
+    height: 50px;
 }
-
+#chat_input {
+    .border-box;
+  padding: .5em;
+  font-size: 18px;
+  width: 85%;
+  height: 100%;
+  border: 1px solid rgba(0,0,0,.5);
+  border-radius: 2px;
+  float: left;
+}
+.chat__text-submit {
+  float: left;
+  width: 15%;
+  height: 100%;
+  .border-box;
+}
 
 /* FOOTER */
 
 .page-footer {
     clear: both;
+  margin: 1em 0;
 }
 
 /* UTILS */
