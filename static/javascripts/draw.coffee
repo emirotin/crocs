@@ -1,8 +1,7 @@
 #global Kinetic
 $cr = window.$cr = window.$cr or {}
+socket = $cr.socket
 
-
-socket = io.connect(document.location.protocol + '//' + document.location.host)
 stage = new Kinetic.Stage
     container: "drawing-stage"
     width: 643

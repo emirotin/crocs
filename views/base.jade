@@ -22,5 +22,6 @@ html
                js.src = "//connect.facebook.net/en_US/all" + (debug ? "/debug" : "") + ".js";
                ref.parentNode.insertBefore(js, ref);
              }(document, /*debug*/ false));
+        != js("socket")
         != js("auth")
         block scripts
