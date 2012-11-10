@@ -116,7 +116,7 @@ socket.on 'connect info', (data) ->
             add_chat_msg msg
 
 
-alert_is_drawer = (word) -> message "You should draw: #{word}"
+alert_is_drawer = (word) -> message "You should draw: <strong class='the-word'>#{word}</strong>"
 
 socket.on 'is drawer', (data) ->
     is_drawer = true
