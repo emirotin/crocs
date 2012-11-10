@@ -29,7 +29,7 @@ global.js.root = 'javascripts'
 global.css.root = 'stylesheets'
 
 app.get '/', (req, res) ->
-    res.render 'index'
+    res.render 'index', { online_users: users }
 
 clients = {}
 users = {}
@@ -62,7 +62,8 @@ io.sockets.on 'connection', (socket) ->
           fb_id: data.fb_id
         socket_to_user[socket_id] = data.fb_id
         if data.fb_id == current_drawer
-            socket.emit 'is drawer'
+            socket.emit 'is drawer', word: current_word
+        io.sockets.emit 'online', data
 
     socket.on 'line create', (data) ->
         socket_broadcast_line socket, 'line create', data
@@ -72,7 +73,7 @@ io.sockets.on 'connection', (socket) ->
         socket_broadcast_line socket, 'line end', data
     socket.on 'chat msg', (data) ->
         clear = data.message.replace /[^0-9a-zA-Zа-яА-ЯёЁ]+/, ' '
-        guess = clear.split(' ').indexOf(current_word) != -1
+        guess = clear.toLowerCase().split(' ').indexOf(current_word) != -1
         socket_id = socket.id
         fb_id = socket_to_user[socket_id]
         data.fb_id = fb_id
@@ -82,8 +83,10 @@ io.sockets.on 'connection', (socket) ->
         if guess
             end_round(true, user.name)
     socket.on 'disconnect', ->
-        delete users[socket_to_user[socket_id]]
+        fb_id = socket_to_user[socket_id]
+        delete users[fb_id]
         delete socket_to_user[socket_id]
+        io.sockets.emit 'offline', fb_id: fb_id
 
 
 start_round = () ->
@@ -106,8 +109,8 @@ end_round = (is_guessed, winner_name) ->
         clearTimeout end_round_timeout
         end_round_timeout = null
     if is_guessed
-        io.sockets.emit 'guessed ok', { drawer_id: current_drawer, word: current_word, winner: winner_name }
-    start_round()
+        io.sockets.emit 'guess ok', { drawer_id: current_drawer, word: current_word, winner: winner_name }
+    setTimeout start_round, 1000
 
 socket_broadcast_line = (socket, command, data) ->
     if data.points

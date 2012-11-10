@@ -22,10 +22,7 @@ block content
         .page-body.bg-doodles
 
             .notification-area
-                .alert.alert-block
-                    | You should draw:&nbsp;
-                    strong.the-word Elephant
-
+                .alert.alert-block Please wait
             .block.block-holder-just-in-case
 
             .app-root.clearfix
@@ -41,26 +38,11 @@ block content
                             .icon-pencil.icon-white
 
             .stuff
-                //h4.block-header Now online 3 people:
+                h4.block-header Now online:
                 .onliners
-                    a
-                        img(title="Person Name")
-                    a
-                        img(title="Person Name")
-                    a
-                        img(title="Person Name")
-                    a
-                        img(title="Person Name")
-                    a
-                        img(title="Person Name")
-                    a
-                        img(title="Person Name")
-                    a
-                        img(title="Person Name")
-                    a
-                        img(title="Person Name")
-                    a
-                        img(title="Person Name")
+                    - for user in online_users
+                        a(class="onliner-#{ user.fb_id }")
+                            img(title="#{ user.name }", src="https://graph.facebook.com/#{ user.fb_id }/picture")
 
         footer.page-footer
             p &copy; Les Trois Bouldos, 2012
@@ -75,5 +57,8 @@ block scripts
             .media-body
                 h4.media-heading.chat__person-name {{ name }}:
                 {{ message }}
+    script#tmpl-onliner(type="text/html")
+        a(class="onliner-{{ fb_id }}")
+            img(title="{{ name }}", src="https://graph.facebook.com/{{ fb_id }}/picture")
 
     != js("draw")
