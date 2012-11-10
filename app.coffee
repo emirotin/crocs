@@ -72,7 +72,7 @@ io.sockets.on 'connection', (socket) ->
         socket_broadcast_line socket, 'line end', data
     socket.on 'chat msg', (data) ->
         clear = data.message.replace /[^0-9a-zA-Zа-яА-ЯёЁ]+/, ' '
-        guess = clear.split(' ').indexOf(current_word) != -1
+        guess = clear.toLowerCase().split(' ').indexOf(current_word) != -1
         socket_id = socket.id
         fb_id = socket_to_user[socket_id]
         data.fb_id = fb_id

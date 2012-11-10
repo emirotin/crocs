@@ -20,9 +20,13 @@ my_line_id = 0
 current_line_id = null
 lines = {}
 
+create_layer = ->
+  if layer
+    layer.remove()
+  layer = new Kinetic.Layer()
+  stage.add(layer)
 
-
-stage.add(layer)
+create_layer()
 
 create_line = (data) ->
     id = data.id
@@ -134,7 +138,7 @@ socket.on 'chat msg', (data) ->
 socket.on 'round start', (data) ->
     is_drawer = $cr.user_id == data.drawer_id
     current_word = if is_drawer then data.word else null
-    layer.clear()
+    create_layer()
     lines = {}
     if is_drawer
       alert_is_drawer current_word
