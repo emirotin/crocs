@@ -91,9 +91,20 @@ html {
     .btn-login {
         display: inline-block;
         background: #3b5998;
-        border:1px solid #283d66;
+      background: -moz-linear-gradient(top,  #336fc4 0%, #324d82 100%);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#336fc4), color-stop(100%,#324d82));
+      background: -webkit-linear-gradient(top,  #336fc4 0%,#324d82 100%);
+      background: -o-linear-gradient(top,  #336fc4 0%,#324d82 100%);
+      background: -ms-linear-gradient(top,  #336fc4 0%,#324d82 100%);
+      background: linear-gradient(to bottom,  #336fc4 0%,#324d82 100%);
+      background-color: #336fc4;
+
+
+      border:1px solid rgba(255,255,255.2);
         border-radius: 3px;
-        margin: 2em 0 0;
+      margin: 0 1em;
+      vertical-align: middle;
+      text-shadow: 0 1px 0 rgba(0,0,0,.5);
     }
         .btn-login:hover {
           opacity: .9;
@@ -136,6 +147,8 @@ html {
   margin: 0;
   -webkit-border-radius: 0;
   border-radius: 0;
+  vertical-align: middle;
+  text-align: middle;
 }
 
 .alert-login {
@@ -187,6 +200,7 @@ html {
       bottom: 0;
       width: 100%;
     }
+
 // Message in chat
 .msg {
     font-size: 22px;
@@ -216,6 +230,29 @@ html {
   width: 15%;
   height: 100%;
   .border-box;
+}
+
+
+/* onliners */
+
+.block-header {
+  font:normal 24px/1.3 sans-serif ;
+  margin: 0 0 .5em;
+}
+.onliners {
+  overflow: hidden;
+
+     a {
+       float: left;
+       width: 50px;
+       height: 50px;
+       margin: 0 5px 5px 0;
+
+       img {
+         display: block;
+
+       }
+     }
 }
 
 /* FOOTER */
