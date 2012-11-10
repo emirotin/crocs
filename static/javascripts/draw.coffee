@@ -1,4 +1,6 @@
 #global Kinetic
+$cr = window.$cr = window.$cr or {}
+
 
 socket = io.connect(document.location.protocol + '//' + document.location.host)
 stage = new Kinetic.Stage

@@ -2,10 +2,25 @@ doctype 5
 html
     head
         meta(charset="utf-8")
-        link(rel="stylesheet", href="/stylesheets/site.css")
+        != css("site")
     body
         block content
+        #fb-root
         script(src="http://code.jquery.com/jquery-1.8.2.js")
         script(src="http://kineticjs.com/download/v4.0.5/kinetic-v4.0.5.min.js")
         script(src="/socket.io/socket.io.js")
+        script
+            window.fbAsyncInit = function() {
+              window.$cr && $cr.fb_init && $cr.fb_init();
+            };
+
+            // Load the SDK's source Asynchronously
+            (function(d, debug){
+               var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+               if (d.getElementById(id)) {return;}
+               js = d.createElement('script'); js.id = id; js.async = true;
+               js.src = "//connect.facebook.net/en_US/all" + (debug ? "/debug" : "") + ".js";
+               ref.parentNode.insertBefore(js, ref);
+             }(document, /*debug*/ false));
+        != js("auth")
         block scripts
