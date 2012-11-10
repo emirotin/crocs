@@ -59,8 +59,8 @@ io.sockets.on 'connection', (socket) ->
         users[data.fb_id] =
           socket: socket
           name: data.name
+          fb_id: data.fb_id
         socket_to_user[socket_id] = data.fb_id
-        console.log 'currrrrr', current_drawer, 'fb', data.fb_id
         if data.fb_id == current_drawer
             socket.emit 'is drawer'
 
@@ -96,10 +96,12 @@ start_round = () ->
     round_in_progress = true
     drawer_socket.broadcast.emit 'round start', { drawer_id: current_drawer }
     drawer_socket.emit 'round start', { drawer_id: current_drawer, word: current_word }
-    end_round_timeout = setTimeout end_round, 2*60*1000
+    end_round_timeout = setTimeout end_round, 3*60*1000
 
 end_round = (is_guessed, winner_name) ->
     round_in_progress = false
+    round_lines = {}
+    round_chat_messages = []
     if end_round_timeout
         clearTimeout end_round_timeout
         end_round_timeout = null
