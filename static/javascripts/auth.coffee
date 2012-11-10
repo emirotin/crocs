@@ -2,14 +2,16 @@
 
 $cr = window.$cr = window.$cr or {}
 
+
 process_login = (res) ->
   if res.status != 'connected'
-    $('.login-status').removeClass('in').addClass('out')
+    $('.user-status').removeClass('in').addClass('out')
     $cr.user_id = null
   else
-    $('.login-status').addClass('in').removeClass('out')
+    $('.user-status').addClass('in').removeClass('out')
     FB.api '/me', (res) ->
-      $('.login-status .name').text res.name
+      $('.user-status .user-name').text res.name
+      $('.user-status .user-avatar').attr 'src', 'https://graph.facebook.com/' + res.id + '/picture'
       $cr.socket.emit 'login', fb_id: res.id, name: res.name
       $cr.user_id = res.id
 
@@ -25,5 +27,5 @@ $cr.fb_init = ->
   FB.getLoginStatus (res) ->
     process_login res
 
-$('.login-status .fb').click ->
+$('.user-status .btn-login').click ->
   FB.login()

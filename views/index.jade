@@ -5,7 +5,7 @@ block content
         header.page-header.bg-doodles.clearfix
             .page-header__p1
                 h1 Crockets
-            .page-header__p2
+            .page-header__p2.user-status
 
                 a.btn-login
                     .icon-fb
@@ -13,18 +13,14 @@ block content
                         b Crockets&nbsp;
                         | login with Facebook
 
-                //.media.header__user-block
-                    img.pull-left(src="http://placehold.it/50x50")
-                    .media-body Pavel Shut
+                .media.header__user-block
+                    img.pull-left.user-avatar(src="")
+                    .media-body.user-name
 
 
         .page-body.bg-doodles
 
             .notification-area
-                .alert.alert-block
-                    .login-status
-                        span.name
-                        a.fb(href="javascript:void(0)") Login with FB
                 .alert.alert-block
                     | You should draw:&nbsp;
                     strong.the-word Elephant

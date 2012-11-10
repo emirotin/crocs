@@ -115,8 +115,8 @@ socket_broadcast_line = (socket, command, data) ->
     socket.broadcast.emit command, data
 
 socket_broadcast_msg = (socket, command, data, dont_record_chat_data) ->
-    if !dont_record_chat_data then round_chat_messages.push message: data
-    socket.broadcast.emit command, message: data
+    if !dont_record_chat_data then round_chat_messages.push data
+    socket.broadcast.emit command, data
     socket.emit command, data
 
 record_chat_msg = (msg) ->

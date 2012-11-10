@@ -1,16 +1,16 @@
 @import "bootstrap/variables";
 
-.login-status {
-  * {
+.user-status {
+  .btn-login, .header__user-block {
     display: none;
   }
   &.out {
-    .fb {
+    .btn-login {
       display: block;
     }
   }
   &.in {
-    .name {
+    .header__user-block {
       display: block;
     }
   }
