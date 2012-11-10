@@ -29,7 +29,7 @@ global.js.root = 'javascripts'
 global.css.root = 'stylesheets'
 
 app.get '/', (req, res) ->
-    res.render 'index'
+    res.render 'index', { online_users: users }
 
 clients = {}
 users = {}
@@ -63,6 +63,7 @@ io.sockets.on 'connection', (socket) ->
         socket_to_user[socket_id] = data.fb_id
         if data.fb_id == current_drawer
             socket.emit 'is drawer', word: current_word
+        io.sockets.emit 'online', data
 
     socket.on 'line create', (data) ->
         socket_broadcast_line socket, 'line create', data
@@ -82,8 +83,10 @@ io.sockets.on 'connection', (socket) ->
         if guess
             end_round(true, user.name)
     socket.on 'disconnect', ->
-        delete users[socket_to_user[socket_id]]
+        fb_id = socket_to_user[socket_id]
+        delete users[fb_id]
         delete socket_to_user[socket_id]
+        io.sockets.emit 'offline', fb_id: fb_id
 
 
 start_round = () ->

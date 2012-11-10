@@ -74,6 +74,9 @@ end_line = (data) ->
     delete lines[id]
 
 
+BOT_ID = 'guardante'
+BOT_NAME = 'Crockets'
+
 add_chat_msg = (data) ->
   $(".chat-log").append($cr.tmpl('chat', data))
 
@@ -157,3 +160,10 @@ $('#chat_input').on 'keydown', (evt) ->
 
 socket.on 'guess ok', (data) ->
   message "The word was #{data.word}. Good guess, #{data.winner}!"
+
+socket.on 'online', (data) ->
+    if $('.onliners').find("onliner-#{data.fb_id}").length
+        $('.onliners').append($cr.tmpl('onliner', data))
+
+socket.on 'offline', (data) ->
+    $('.onliners').find("onliner-#{data.fb_id}").fadeOut()
