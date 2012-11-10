@@ -1,0 +1,205 @@
+@import "bootstrap/variables";
+
+.login-status {
+  * {
+    display: none;
+  }
+  &.out {
+    .fb {
+      display: block;
+    }
+  }
+  &.in {
+    .name {
+      display: block;
+    }
+  }
+}
+
+
+
+body, html {
+  background: none;
+  height: 100%;
+}
+
+html {
+    background: -moz-radial-gradient(center, ellipse cover,  hsla(200,100%,94%,1) 50%, hsla(206,100%,86%,1) 88%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(1%,hsla(200,100%,94%,1)), color-stop(88%,hsla(206,100%,86%,1)));
+    background: -webkit-radial-gradient(center, ellipse cover,  hsla(200,100%,94%,1) 50%,hsla(206,100%,86%,1) 88%);
+    background: -o-radial-gradient(center, ellipse cover,  hsla(200,100%,94%,1) 50%,hsla(206,100%,86%,1) 88%);
+    background: -ms-radial-gradient(center, ellipse cover,  hsla(200,100%,94%,1) 50%,hsla(206,100%,86%,1) 88%);
+    background: radial-gradient(ellipse at center,  hsla(200,100%,94%,1) 50%,hsla(206,100%,86%,1) 88%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e1f5ff', endColorstr='#b7e0ff',GradientType=1 );
+
+    background-color: #b7e0ff;
+
+}
+
+.page {
+    width: 960px;
+    margin: 0 auto;
+    border: 1px solid hsla(200,100%,20%, .5);
+}
+
+/* HEADER */
+
+.page-header {
+        padding: .5em 1.5em;
+        margin: 0;
+        position: relative;
+        z-index: 10;
+
+-webkit-border-radius: 0 0 7px 7px;
+        border-radius: 0 0 7px 7px;
+        background: hsl(79, 46%, 58%);
+        background-position: 42px -670px;
+        color: #fff;
+        text-shadow: 0 1px rgba(0,0,0,.3);
+}
+  .page-header__p1 {
+      float: left;
+  }
+  .page-header__p2 {
+      float: right;
+  }
+
+    .header__user-block .media-body {
+        line-height: 50px;
+        font-size: 18px;
+    }
+
+
+.page-body {
+    position: relative;
+    padding: 5px 0 0;
+    z-index: 5;
+    margin-top: -5px;
+    -webkit-border-radius: 0 0 7px 7px ;
+    border-radius: 0 0 7px 7px ;
+    background: rgba(255,255,255,.3);
+    background-position: 261px -333px;
+    background-repeat: repeat !important;
+}
+
+    // Login btn
+    .btn-login {
+        display: inline-block;
+        background: #3b5998;
+        border:1px solid #283d66;
+        border-radius: 3px;
+        margin: 2em 0 0;
+    }
+        .btn-login:hover {
+          opacity: .9;
+        }
+        .btn-login > * {
+            float: left;
+            padding-left:15px;
+            padding-right:15px;
+        }
+        .btn-text {
+            color: #fff;
+            font: normal 20px/50px sans-serif;
+        }
+
+.icon-fb {
+  height: 30px;
+  display: block;
+  overflow: hidden;
+  border-right: 1px solid #5079cc;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+    .icon-fb:after{
+        content: '';
+        display: block;
+        width: 16px;
+        height: 34px;
+        margin: auto;
+        background: url(../../img/fb.png);
+    }
+
+
+/* APP */
+
+.app-root {
+  overflow: hidden;
+  height: 500px;
+}
+.canvas-wrap {
+    width: 67%;
+    height: 100%;
+    float: left;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  background: #fff;
+}
+.canvas-wrap #drawing-stage > div,
+.canvas-wrap canvas {
+}
+
+
+/* CHAT */
+
+.chat-log {
+    width: 33%;
+    float: left;
+    height: 100%;
+    position: relative;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    background: rgba(255,2552,255,.5);
+    border: 1px solid rgba(255,2552,255,.5);
+}
+
+.chat__msgs {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 50px;
+    overflow: auto;
+
+}
+
+.chat__input-holder {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+// Message in chat
+.msg {
+    font-size: 18px;
+}
+    .chat__person-name {
+      line-height: 25px;
+      margin: 0;
+    }
+
+.chat__input-holder {
+
+}
+
+
+/* FOOTER */
+
+.page-footer {
+    clear: both;
+}
+
+/* UTILS */
+
+
+.bg-doodles {
+    background-image: url("../../img/doodles1.png");
+    background-repeat: no-repeat;
+}
+/*
+
+.page > * ,
+.app-root > * {
+    outline: 1px dashed #6ca00b;
+}
+*/

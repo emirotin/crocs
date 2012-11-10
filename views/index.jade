@@ -1,14 +1,114 @@
 extends base
 
 block content
-    .login-status
-        span.name
-        a.fb(href="javascript:void(0)") Login with FB
-    .canvas-wrap
-        #drawing-stage
-    .chat-log
-    .chat-wrap
-        input#chat_input(type="text")
+    .page
+        header.page-header.bg-doodles.clearfix
+            .page-header__p1
+                h1 Crockets
+            .page-header__p2
+
+                .media.header__user-block
+                    img.pull-left(src="http://placehold.it/50x50")
+                    .media-body Pavel Shut
+
+
+        .page-body.bg-doodles
+
+            .notification-area
+                .notif
+                    .login-status
+                        span.name
+                        a.fb(href="javascript:void(0)") Login with FB
+
+            .block.block-holder-just-in-case
+
+            .app-root
+                .canvas-wrap
+                    #drawing-stage
+
+                .chat-log
+                    .chat__msgs
+                        .media.msg
+                            a.pull-left
+                                img.media-object(src="http://placehold.it/50x50")
+                            .media_body
+                                h4.media-heading.chat__person-name Pavel Shut:
+                                | Crockets!
+
+                        .media.msg
+                            a.pull-left
+                                img.media-object(src="http://placehold.it/50x50")
+                            .media_body
+                                h4.media-heading.chat__person-name Pavel Shut:
+                                | Crockets!
+
+                        .media.msg
+                            a.pull-left
+                                img.media-object(src="http://placehold.it/50x50")
+                            .media_body
+                                h4.media-heading.chat__person-name Pavel Shut:
+                                | Crockets!
+
+                        .media.msg
+                            a.pull-left
+                                img.media-object(src="http://placehold.it/50x50")
+                            .media_body
+                                h4.media-heading.chat__person-name Pavel Shut:
+                                | Crockets!
+
+                        .media.msg
+                            a.pull-left
+                                img.media-object(src="http://placehold.it/50x50")
+                            .media_body
+                                h4.media-heading.chat__person-name Pavel Shut:
+                                | Crockets!
+
+                        .media.msg
+                            a.pull-left
+                                img.media-object(src="http://placehold.it/50x50")
+                            .media_body
+                                h4.media-heading.chat__person-name Pavel Shut:
+                                | Crockets!
+
+                        .media.msg
+                            a.pull-left
+                                img.media-object(src="http://placehold.it/50x50")
+                            .media_body
+                                h4.media-heading.chat__person-name Pavel Shut:
+                                | Crockets!
+
+                        .media.msg
+                            a.pull-left
+                                img.media-object(src="http://placehold.it/50x50")
+                            .media_body
+                                h4.media-heading.chat__person-name Pavel Shut:
+                                | Crockets!
+
+                        .media.msg
+                            a.pull-left
+                                img.media-object(src="http://placehold.it/50x50")
+                            .media_body
+                                h4.media-heading.chat__person-name Pavel Shut:
+                                | Crockets!
+
+                        .media.msg
+                            a.pull-left
+                                img.media-object(src="http://placehold.it/50x50")
+                            .media_body
+                                h4.media-heading.chat__person-name Pavel Shut:
+                                | Crockets!
+
+                    form.chat__input-holder
+                        input#chat_input(type="text")
+                        button(type="submit",class="chat__text-submit") !
+
+            .stuff
+                h3 Who's online
+
+        footer.page-footer
+            p &copy; Troya Buldosaw, 2012
+
+
 
 block scripts
     != js("draw")
