@@ -7,7 +7,13 @@ block content
                 h1 Crockets
             .page-header__p2
 
-                .media.header__user-block
+                a.btn-login
+                    .icon-fb
+                    span.btn-text To play&nbsp;
+                        b Crockets&nbsp;
+                        | login with Facebook
+
+                //.media.header__user-block
                     img.pull-left(src="http://placehold.it/50x50")
                     .media-body Pavel Shut
 
@@ -19,13 +25,6 @@ block content
                     .login-status
                         span.name
                         a.fb(href="javascript:void(0)") Login with FB
-
-                .alert.alert-block
-                    | To play Crockets you need to login with Facebook:&nbsp;
-                    a.btn-login
-                        .icon-fb
-                        span.btn-text Login with Facebook
-
                 .alert.alert-block
                     | You should draw:&nbsp;
                     strong.the-word Elephant
@@ -44,7 +43,7 @@ block content
                         button(type="submit",class="chat__text-submit") !
 
             .stuff
-                h4.block-header Who's online
+                h4.block-header Now online 3 people:
                 .onliners
                     a
                         img(title="Person Name")
@@ -76,7 +75,7 @@ block scripts
         .media.msg
             a.pull-left
                 img.media-object(src="https://graph.facebook.com/{{ fb_id }}/picture")
-            .media_body
+            .media-body
                 h4.media-heading.chat__person-name {{ name }}:
                 {{ message }}
 
