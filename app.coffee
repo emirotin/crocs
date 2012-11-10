@@ -41,15 +41,25 @@ rand_id = ->
 io.sockets.on 'connection', (socket) ->
     socket_id = socket.id
     clients[socket_id] = socket
-    if current_drawer == null
-        current_drawer = socket_id
-    socket.emit 'login info', { id: socket_id, is_drawer: current_drawer == socket_id, round_lines: round_lines, round_chat_messages: round_chat_messages }
+    
+    need_to_start_round = false
+    if clients.length == 1
+        record_chat_msg 'You are the first player. Please wait at least one more player to begin.'
     # need to start round when more than one client connected and round is not started yet
-    if clients.length > 1 && !round_in_progress
+    else if clients.length > 1 && !round_in_progress
+        current_drawer = rand_id()
         round_in_progress = true
-    else if clients.length == 1
-        socket.emit 'login info', { id: socket_id, is_drawer: false, round_lines: round_lines, round_chat_messages: [{message:"You are the first player. Please wait at least one more peer to begin."}] }
-    need_to_start_round = 
+        need_to_start_round = true
+        record_chat_msg 'Second player connected. Crocs time!!!'
+    else
+        record_chat_msg 'The game is in progress. You can type in your guess.'
+
+    socket.emit 'login info', { id: socket_id, round_lines: round_lines, round_chat_messages: round_chat_messages }
+
+    if need_to_start_round
+        socket_broadcast_msg 'round start', { drawer_id: current_drawer }
+
+
     socket.on 'line create', (data) ->
         socket_broadcast_line socket, 'line create', data
     socket.on 'line update', (data) ->
@@ -61,6 +71,7 @@ io.sockets.on 'connection', (socket) ->
     socket.on 'disconnect', ->
         delete clients[socket_id]
         if current_drawer == socket_id
+            # todo: restart round
             current_drawer = rand_id()
 
 port = process.env.PORT or 5000
@@ -77,3 +88,6 @@ socket_broadcast_msg = (socket, command, data) ->
     round_chat_messages.push message: data
     socket.broadcast.emit command, message: data
     socket.emit command, message: data
+
+record_chat_msg = (msg) ->
+    round_chat_messages.push message: msg
