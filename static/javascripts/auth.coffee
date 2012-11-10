@@ -5,11 +5,13 @@ $cr = window.$cr = window.$cr or {}
 process_login = (res) ->
   if res.status != 'connected'
     $('.login-status').removeClass('in').addClass('out')
+    $cr.user_id = null
   else
     $('.login-status').addClass('in').removeClass('out')
     FB.api '/me', (res) ->
       $('.login-status .name').text res.name
       $cr.socket.emit 'login', fb_id: res.id, name: res.name
+      $cr.user_id = res.id
 
 $cr.fb_init = ->
   FB.init

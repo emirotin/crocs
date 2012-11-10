@@ -10,7 +10,6 @@ stage = new Kinetic.Stage
 
 layer = new Kinetic.Layer()
 drawing = false
-client_id = null
 is_drawer = false
 my_line_id = 0
 current_line_id = null
@@ -72,7 +71,7 @@ $('#drawing-stage .kineticjs-content').on
         if not is_drawer then return
         drawing = true
         my_line_id += 1
-        current_line_id = client_id + ':' + my_line_id
+        current_line_id = $cr.user_id + ':' + my_line_id
         coords = stage.getUserPosition(evt)
         points = [coords.x, coords.y]
         data = {id: current_line_id, points: points}
@@ -97,8 +96,7 @@ $('#drawing-stage .kineticjs-content').on
         socket.emit('line end', data)
         current_line_id = null
 
-socket.on 'login info', (data) ->
-    client_id = data.id
+socket.on 'connect info', (data) ->
     for id of data.round_lines
         draw_line data.round_lines[id]
     if data.round_chat_messages.length
@@ -118,7 +116,7 @@ socket.on 'chat msg', (data) ->
     add_chat_msg(data)
 
 socket.on 'round start', (data) ->
-    is_drawer = client_id == data.drawer_id
+    is_drawer = $cr.user_id == data.drawer_id
     if is_drawer
         add_chat_msg({message: 'You are the drawer! The word to draw is "' + data.word + '".'})  
 

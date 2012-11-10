@@ -29,6 +29,8 @@ app.get '/', (req, res) ->
     res.render 'index'
 
 clients = {}
+users = {}
+socket_to_user = {}
 clients_count = 0
 current_drawer = null
 current_word = null
@@ -39,32 +41,34 @@ words = fs.readFileSync path.join(app_root, 'words.txt'), 'ascii'
 words = words.split '\n'
 end_round_timeout = null
 
-rand_id = ->
-    ids = [key for key of clients when clients.hasOwnProperty(key)]
+active_users = -> (key for key of users when users.hasOwnProperty(key) and users[key])
+
+rand_user = ->
+    ids = active_users()
     ids[Math.floor(Math.random() * ids.length)]
 
 io.sockets.on 'connection', (socket) ->
     socket_id = socket.id
-    clients[socket_id] = socket
-    clients_count++
-    console.log clients_count
-    
+    users_count = active_users().length
     personal_chat_msg = null
-    need_to_start_round = false
-    if clients_count == 1
+    if users_count == 1
         personal_chat_msg = 'You are the first player. Please wait at least one more player to begin.'
     # need to start round when more than one client connected and round is not started yet
-    else if clients_count > 1 && !round_in_progress
-        need_to_start_round = true
+    else if users_count > 1 && !round_in_progress
         personal_chat_msg = 'Second player connected. Crocs time!!!'
     else
         personal_chat_msg = 'The game is in progress. You can type in your guess.'
 
-    socket.emit 'login info', { id: socket_id, round_lines: round_lines, round_chat_messages: round_chat_messages }
+    socket.emit 'connect info', { round_lines: round_lines, round_chat_messages: round_chat_messages }
     socket.emit 'chat msg', message: personal_chat_msg
 
-    if need_to_start_round
-        start_round()
+    socket.on 'login', (data) ->
+        users[data.fb_id] =
+          socket: socket
+          name: data.name
+        socket_to_user[socket_id] = data.fb_id
+        if active_users().length > 1 && !round_in_progress
+          start_round()
 
     socket.on 'line create', (data) ->
         socket_broadcast_line socket, 'line create', data
@@ -77,28 +81,23 @@ io.sockets.on 'connection', (socket) ->
         guess = clear.split(' ').indexOf(current_word) != -1
         socket_broadcast_msg socket, 'chat msg', data
         if guess
-            socket_broadcast_msg socket, 'chat msg', message: 'CORRECT!!! Game round is over. Next game begins!!'
+            socket_broadcast_msg socket, 'guess', ok: true
     socket.on 'disconnect', ->
-        delete clients[socket_id]
-        clients_count--
-        if current_drawer == socket_id
-            end_round()
+        delete users[socket_to_user[socket_id]]
+        delete socket_to_user[socket_id]
 
-port = process.env.PORT or 5000
-
-server.listen port
 
 start_round = () ->
     current_word = words[Math.floor(Math.random() * words.length)]
-    current_drawer = rand_id()
+    current_drawer = rand_user()
+    drawer_socket = users[current_drawer].socket
     round_in_progress = true
-    drawer_socket = clients[current_drawer]
-    console.log 'SOKEEEEEEEEEEEEEEEETTTT' + current_drawer
-    #drawer_socket.broadcast.emit 'round start', { drawer_id: current_drawer }
-    #drawer_socket.emit 'round start', { drawer_id: current_drawer, word: current_word }
-    #end_round_timeout = setTimeout end_round, 2*60*1000
+    drawer_socket.broadcast.emit 'round start', { drawer_id: current_drawer }
+    drawer_socket.emit 'round start', { drawer_id: current_drawer, word: current_word }
+    end_round_timeout = setTimeout end_round, 2*60*1000
 
 end_round = () ->
+    round_in_progress = false
     if end_round_timeout
         clearTimeout end_round_timeout
         end_round_timeout = null
@@ -116,3 +115,7 @@ socket_broadcast_msg = (socket, command, data, dont_record_chat_data) ->
 
 record_chat_msg = (msg) ->
     round_chat_messages.push message: msg
+
+
+port = process.env.PORT or 5000
+server.listen port
