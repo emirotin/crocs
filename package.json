@@ -1,12 +1,13 @@
 {
     "name": "Crocs",
     "version": "0.0.1",
-    "main": "app.coffee",
+    "main": "boot.js",
     "dependencies": {
-        "coffee-script": "*",
-        "express": "3.0.x",
-        "jade": "*",
-        "socket.io": "*"
+        "coffee-script": "1.4.0",
+        "express": "3.0",
+        "jade": "0.27.5",
+        "connect-assets": "2.3.3",
+        "socket.io": "0.9.11"
     },
     "engines": {
         "node": "0.8.x",

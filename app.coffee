@@ -1,5 +1,5 @@
 path = require 'path'
-
+connect_assets = require 'connect-assets'
 express = require 'express'
 socket_io = require('socket.io')
 
@@ -8,7 +8,8 @@ server = require('http').createServer(app)
 io = socket_io.listen server
 
 app_root = __dirname
-static_path = path.join app_root, 'static'
+static_dir = 'static'
+static_path = path.join app_root, static_dir
 
 app.set 'view engine', 'jade'
 
@@ -18,6 +19,10 @@ app
     .use(express.methodOverride())
     .use(app.router)
     .use(express.static static_path)
+    .use(connect_assets src: static_dir)
+
+global.js.root = 'javascripts'
+global.css.root = 'stylesheets'
 
 app.get '/', (req, res) ->
     res.render 'index'
