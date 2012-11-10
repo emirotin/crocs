@@ -62,7 +62,7 @@ io.sockets.on 'connection', (socket) ->
           fb_id: data.fb_id
         socket_to_user[socket_id] = data.fb_id
         if data.fb_id == current_drawer
-            socket.emit 'is drawer'
+            socket.emit 'is drawer', word: current_word
 
     socket.on 'line create', (data) ->
         socket_broadcast_line socket, 'line create', data
@@ -107,7 +107,7 @@ end_round = (is_guessed, winner_name) ->
         end_round_timeout = null
     if is_guessed
         io.sockets.emit 'guessed ok', { drawer_id: current_drawer, word: current_word, winner: winner_name }
-    start_round()
+    setTimeout start_round, 1000
 
 socket_broadcast_line = (socket, command, data) ->
     if data.points

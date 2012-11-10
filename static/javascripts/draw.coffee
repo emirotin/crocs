@@ -2,6 +2,10 @@
 $cr = window.$cr = window.$cr or {}
 socket = $cr.socket
 
+$message = $('.notification-area .alert')
+message = (html) ->
+  $message.html html
+
 stage = new Kinetic.Stage
     container: "drawing-stage"
     width: 643
@@ -11,9 +15,13 @@ stage = new Kinetic.Stage
 layer = new Kinetic.Layer()
 drawing = false
 is_drawer = false
+current_word = null
 my_line_id = 0
 current_line_id = null
 lines = {}
+
+
+
 stage.add(layer)
 
 create_line = (data) ->
@@ -103,8 +111,13 @@ socket.on 'connect info', (data) ->
         for msg in data.round_chat_messages
             add_chat_msg msg
 
+
+alert_is_drawer = (word) -> message "You should draw: #{word}"
+
 socket.on 'is drawer', (data) ->
     is_drawer = true
+    current_word = if is_drawer then data.word else null
+    alert_is_drawer current_word
 
 socket.on 'line create', (data) ->
     create_line(data)
@@ -120,6 +133,13 @@ socket.on 'chat msg', (data) ->
 
 socket.on 'round start', (data) ->
     is_drawer = $cr.user_id == data.drawer_id
+    current_word = if is_drawer then data.word else null
+    layer.clear()
+    lines = {}
+    if is_drawer
+      alert_is_drawer current_word
+    else
+      message "The new round starts!"
 
 $('#chat_input').on 'keydown', (evt) ->
   if evt.which == 13
@@ -130,3 +150,6 @@ $('#chat_input').on 'keydown', (evt) ->
           return
       socket.emit('chat msg', {message: val})
       input.val('')
+
+socket.on 'guess ok', (data) ->
+  message "The word was #{data.word}. Good guess, #{data.winner}!"
