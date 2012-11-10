@@ -24,6 +24,9 @@ app.get '/', (req, res) ->
 
 clients = {}
 current_drawer = null
+#round_data = { messages: [] }
+round_lines = {}
+round_chat_messages = []
 
 rand_id = ->
     ids = [key for key of clients when clients.hasOwnProperty(key)]
@@ -34,19 +37,32 @@ io.sockets.on 'connection', (socket) ->
     clients[socket_id] = socket
     if current_drawer == null
         current_drawer = socket_id
-    socket.emit 'login info', { id: socket_id, is_drawer: current_drawer == socket_id }
+    socket.emit 'login info', { id: socket_id, is_drawer: current_drawer == socket_id, round_lines: round_lines, round_chat_messages: round_chat_messages }
+    #if clients.length > 1
     socket.on 'line create', (data) ->
-        socket.broadcast.emit 'line create', data
+        socket_broadcast_line socket, 'line create', data
     socket.on 'line update', (data) ->
-        socket.broadcast.emit 'line update', data
+        socket_broadcast_line socket, 'line update', data
     socket.on 'line end', (data) ->
-        socket.broadcast.emit 'line end', data
+        socket_broadcast_line socket, 'line end', data
+    socket.on 'chat msg', (data) ->
+        socket_broadcast_msg socket, 'chat msg', data
     socket.on 'disconnect', ->
         delete clients[socket_id]
         if current_drawer == socket_id
             current_drawer = rand_id()
 
-
 port = process.env.PORT or 5000
 
 server.listen port
+
+
+socket_broadcast_line = (socket, command, data) ->
+    if data.points
+        round_lines[data.id] = data
+    socket.broadcast.emit command, data
+
+socket_broadcast_msg = (socket, command, data) ->
+    round_chat_messages.push message: data
+    socket.broadcast.emit command, message: data
+    socket.emit command, message: data

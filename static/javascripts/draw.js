@@ -70,6 +70,10 @@ $(function() {
         delete lines[id];
     }
 
+    function add_chat_msg(data) {
+        $(".chat-log").append("<div>" + data.message + "</div>");
+    }
+
     $('#drawing-stage .kineticjs-content').on({
         'mousedown touchstart': function (evt) {
             drawing = true;
@@ -104,7 +108,19 @@ $(function() {
     });
 
     socket.on('login info', function(data) {
-       client_id = data.id;
+        client_id = data.id;
+        for(var id in data.round_lines) {
+            if (data.round_lines.hasOwnProperty(id)) {
+                draw_line(data.round_lines[id]);
+            }
+        }
+        if (data.round_chat_messages.length > 0) {
+            for(var id in data.round_chat_messages) {
+                if (data.round_chat_messages.hasOwnProperty(id)) {
+                    add_chat_msg(data.round_chat_messages[id]);
+                }
+            }
+        };
     });
 
     socket.on('line create', function(data) {
@@ -116,5 +132,27 @@ $(function() {
     socket.on('line end', function(data) {
         end_line(data);
     });
+    socket.on('chat msg', function(data) {
+        add_chat_msg(data);
+    });
+
+
+
+
+
+
+
+    $('#chat_input').on('keydown', function (evt) {
+        if (evt.which == 13) {
+            evt.preventDefault();
+            var input = $('#chat_input');
+            socket.emit('chat msg', input.val());
+            input.val('');
+        }
+    });
+
+
+
+
 
 });
