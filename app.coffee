@@ -83,9 +83,9 @@ io.sockets.on 'connection', (socket) ->
         if guess
             end_round(true, user.name)
     socket.on 'disconnect', ->
-        fb_id = socket_to_user[socket_id]
-        delete users[fb_id]
-        delete socket_to_user[socket_id]
+        fb_id = socket_to_user[socket.id]
+        #delete users[fb_id]
+        #delete socket_to_user[socket_id]
         io.sockets.emit 'offline', fb_id: fb_id
 
 
