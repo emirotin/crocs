@@ -52,26 +52,14 @@ rand_user = ->
 
 io.sockets.on 'connection', (socket) ->
     socket_id = socket.id
-    users_count = active_users().length
-    personal_chat_msg = null
-    if users_count == 1
-        personal_chat_msg = 'You are the first player. Please wait at least one more player to begin.'
-    # need to start round when more than one client connected and round is not started yet
-    else if users_count > 1 && !round_in_progress
-        personal_chat_msg = 'Second player connected. Crocs time!!!'
-    else
-        personal_chat_msg = 'The game is in progress. You can type in your guess.'
 
     socket.emit 'connect info', { round_lines: round_lines, round_chat_messages: round_chat_messages }
-    socket.emit 'chat msg', message: personal_chat_msg, fb_id: BOT_ID, name: BOT_NAME
 
     socket.on 'login', (data) ->
         users[data.fb_id] =
           socket: socket
           name: data.name
         socket_to_user[socket_id] = data.fb_id
-        if active_users().length > 1 and not round_in_progress
-          start_round()
 
     socket.on 'line create', (data) ->
         socket_broadcast_line socket, 'line create', data
@@ -89,13 +77,16 @@ io.sockets.on 'connection', (socket) ->
         data.name = user.name
         socket_broadcast_msg socket, 'chat msg', data
         if guess
-            io.sockets.emit 'guess', ok: true
+            end_round(true, user.name)
     socket.on 'disconnect', ->
         delete users[socket_to_user[socket_id]]
         delete socket_to_user[socket_id]
 
 
 start_round = () ->
+    if (active_users().length < 2)
+      setTimeout start_round, 1000
+      return
     current_word = words[Math.floor(Math.random() * words.length)]
     current_drawer = rand_user()
     drawer_socket = users[current_drawer].socket
@@ -104,11 +95,13 @@ start_round = () ->
     drawer_socket.emit 'round start', { drawer_id: current_drawer, word: current_word }
     end_round_timeout = setTimeout end_round, 2*60*1000
 
-end_round = () ->
+end_round = (is_guessed, winner_name) ->
     round_in_progress = false
     if end_round_timeout
         clearTimeout end_round_timeout
         end_round_timeout = null
+    if is_guessed
+        io.sockets.emit 'guessed ok', { drawer_id: current_drawer, word: current_word, winner: winner_name }
     start_round()
 
 socket_broadcast_line = (socket, command, data) ->
