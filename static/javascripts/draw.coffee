@@ -100,7 +100,7 @@ socket.on 'login info', (data) ->
       draw_line data.round_lines[id]
   if data.round_chat_messages.length
       for msg in data.round_chat_messages
-          add_chat_msg msg.message
+          add_chat_msg msg
 
 socket.on 'line create', (data) ->
   create_line(data)
