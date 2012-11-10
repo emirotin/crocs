@@ -109,7 +109,7 @@ end_round = (is_guessed, winner_name) ->
         clearTimeout end_round_timeout
         end_round_timeout = null
     if is_guessed
-        io.sockets.emit 'guessed ok', { drawer_id: current_drawer, word: current_word, winner: winner_name }
+        io.sockets.emit 'guess ok', { drawer_id: current_drawer, word: current_word, winner: winner_name }
     setTimeout start_round, 1000
 
 socket_broadcast_line = (socket, command, data) ->

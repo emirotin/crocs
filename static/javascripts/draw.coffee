@@ -78,6 +78,8 @@ BOT_ID = 'guardante'
 BOT_NAME = 'Crockets'
 
 add_chat_msg = (data) ->
+  data.fb_id or= BOT_ID
+  data.name or= BOT_NAME
   $(".chat-log").append($cr.tmpl('chat', data))
 
 
@@ -159,7 +161,7 @@ $('#chat_input').on 'keydown', (evt) ->
       input.val('')
 
 socket.on 'guess ok', (data) ->
-  message "The word was #{data.word}. Good guess, #{data.winner}!"
+  add_chat_msg message: "The word was #{data.word}. Good guess, #{data.winner}!"
 
 socket.on 'online', (data) ->
     if $('.onliners').find("onliner-#{data.fb_id}").length
