@@ -10,6 +10,8 @@ html
         script(src="http://code.jquery.com/jquery-1.8.2.js")
         script(src="http://kineticjs.com/download/v4.0.5/kinetic-v4.0.5.min.js")
         script(src="/socket.io/socket.io.js")
+        != js("mustache")
+        != js("mustache-cache")
         script
             window.fbAsyncInit = function() {
               window.$cr && $cr.fb_init && $cr.fb_init();

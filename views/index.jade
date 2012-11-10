@@ -32,12 +32,6 @@ block content
 
                 .chat-log-wrap
                     .chat-log
-                        .media.msg
-                            a.pull-left
-                                img.media-object(src="http://placehold.it/50x50")
-                            .media_body
-                                h4.media-heading.chat__person-name Pavel Shut:
-                                | Crockets!
 
                     form.chat__input-holder
                         input#chat_input(type="text")
@@ -52,4 +46,12 @@ block content
 
 
 block scripts
+    script#tmpl-chat(type="text/html")
+        .media.msg
+            a.pull-left
+                img.media-object(src="https://graph.facebook.com/{{ fb_id }}/picture")
+            .media_body
+                h4.media-heading.chat__person-name {{ name }}:
+                {{ message }}
+
     != js("draw")

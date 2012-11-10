@@ -12,6 +12,9 @@ app_root = __dirname
 static_dir = 'static'
 static_path = path.join app_root, static_dir
 
+BOT_ID = 'guardante'
+BOT_NAME = 'Crockets'
+
 app.set 'view engine', 'jade'
 
 app
@@ -60,14 +63,14 @@ io.sockets.on 'connection', (socket) ->
         personal_chat_msg = 'The game is in progress. You can type in your guess.'
 
     socket.emit 'connect info', { round_lines: round_lines, round_chat_messages: round_chat_messages }
-    socket.emit 'chat msg', message: personal_chat_msg
+    socket.emit 'chat msg', message: personal_chat_msg, fb_id: BOT_ID, name: BOT_NAME
 
     socket.on 'login', (data) ->
         users[data.fb_id] =
           socket: socket
           name: data.name
         socket_to_user[socket_id] = data.fb_id
-        if active_users().length > 1 && !round_in_progress
+        if active_users().length > 1 and not round_in_progress
           start_round()
 
     socket.on 'line create', (data) ->
@@ -79,9 +82,14 @@ io.sockets.on 'connection', (socket) ->
     socket.on 'chat msg', (data) ->
         clear = data.message.replace /[^0-9a-zA-Zа-яА-ЯёЁ]+/, ' '
         guess = clear.split(' ').indexOf(current_word) != -1
+        socket_id = socket.id
+        fb_id = socket_to_user[socket_id]
+        data.fb_id = fb_id
+        user = users[fb_id]
+        data.name = user.name
         socket_broadcast_msg socket, 'chat msg', data
         if guess
-            socket_broadcast_msg socket, 'guess', ok: true
+            io.sockets.emit 'guess', ok: true
     socket.on 'disconnect', ->
         delete users[socket_to_user[socket_id]]
         delete socket_to_user[socket_id]

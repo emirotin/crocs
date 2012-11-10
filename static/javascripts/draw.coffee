@@ -63,7 +63,7 @@ end_line = (data) ->
 
 
 add_chat_msg = (data) ->
-  $(".chat-log").append("<div>" + data.message + "</div>")
+  $(".chat-log").append($cr.tmpl('chat', data))
 
 
 $('#drawing-stage .kineticjs-content').on
