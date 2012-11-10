@@ -81,6 +81,7 @@ add_chat_msg = (data) ->
   data.fb_id or= BOT_ID
   data.name or= BOT_NAME
   $(".chat-log").append($cr.tmpl('chat', data))
+  $(".chat-log").scrollTo($(".chat-log .msg:last"))
 
 
 $('#drawing-stage .kineticjs-content').on
