@@ -25,6 +25,7 @@ app.get '/', (req, res) ->
 clients = {}
 current_drawer = null
 #round_data = { messages: [] }
+round_in_progress = false
 round_lines = {}
 round_chat_messages = []
 
@@ -38,7 +39,12 @@ io.sockets.on 'connection', (socket) ->
     if current_drawer == null
         current_drawer = socket_id
     socket.emit 'login info', { id: socket_id, is_drawer: current_drawer == socket_id, round_lines: round_lines, round_chat_messages: round_chat_messages }
-    #if clients.length > 1
+    # need to start round when more than one client connected and round is not started yet
+    if clients.length > 1 && !round_in_progress
+        round_in_progress = true
+    else if clients.length == 1
+        socket.emit 'login info', { id: socket_id, is_drawer: false, round_lines: round_lines, round_chat_messages: [{message:"You are the first player. Please wait at least one more peer to begin."}] }
+    need_to_start_round = 
     socket.on 'line create', (data) ->
         socket_broadcast_line socket, 'line create', data
     socket.on 'line update', (data) ->
